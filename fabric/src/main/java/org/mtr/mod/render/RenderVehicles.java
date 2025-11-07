@@ -23,6 +23,7 @@ import org.mtr.mod.resource.Interpolation;
 import org.mtr.mod.resource.VehicleResource;
 import org.mtr.mod.resource.VehicleResourceCache;
 import org.mtr.mod.servlet.ResourcePackCreatorOperationServlet;
+import org.vivecraft.api.client.VRClientAPI;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -200,7 +201,12 @@ public class RenderVehicles implements IGui {
 							});
 
 							// Check and mount player
-							VehicleRidingMovement.startRiding(openFloorsAndDoorways, vehicle.vehicleExtraData.getDepotId(), vehicle.vehicleExtraData.getSidingId(), vehicle.getId(), carNumber, playerPosition.getXMapped(), playerPosition.getYMapped(), playerPosition.getZMapped(), absoluteVehicleCarPositionAndRotation.yaw);
+                            VRClientAPI vr = VRClientAPI.instance();
+                            if (vr.isVRActive()) {
+                                VehicleRidingMovement.startRiding(openFloorsAndDoorways, vehicle.vehicleExtraData.getDepotId(), vehicle.vehicleExtraData.getSidingId(), vehicle.getId(), carNumber, playerPosition.getXMapped(), 1.0, playerPosition.getZMapped(), absoluteVehicleCarPositionAndRotation.yaw);
+                            } else {
+                                VehicleRidingMovement.startRiding(openFloorsAndDoorways, vehicle.vehicleExtraData.getDepotId(), vehicle.vehicleExtraData.getSidingId(), vehicle.getId(), carNumber, playerPosition.getXMapped(), playerPosition.getYMapped(), playerPosition.getZMapped(), absoluteVehicleCarPositionAndRotation.yaw);
+                            }
 						}
 
 						// Play vehicle sounds
